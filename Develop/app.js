@@ -10,88 +10,149 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-const role = () => {
 
+const employees = []
+
+const finish = () => {
+  fs.writeFile(outputPath, render(employees), err => {
+    if (err) { console.log(err) }
+  })
+}
+
+
+
+const role = () => {
+  
+  
   prompt ({
     type: 'list',
-    name: 'role',
+    name: 'roles',
     message: 'What is the role of the employee?',
     choices: ['Manager', 'Engineer', 'Intern']
   })
+  .then (({ roles }) => {
+    if (roles === 'Manager') {
+      mRole()
+    } else if (roles === 'Engineer') {
+      eRole()
+    } else {
+      iRole()
+    }
+  })
+  .catch(err => console.log(err))
   
 }
 
 const eRole = () => {
-  prompt ({
+  prompt ([{
     type: 'input',
     name: 'name',
     message: 'Enter the employee name:'
-  }, {
+   }, {
     type: 'input',
     name: 'id',
     message: 'Enter employee id:'
-  }, {
+   }, {
     type: 'input',
     name: 'email',
     message: 'Enter the employee email:'
-  }, {
+   }, {
     type: 'input',
     name: 'github',
     message: 'Enter employee github username:'
-  }, {
+   }, {
     type: 'confirm',
     name: 'another',
     message: 'Would you like to enter another employee?'
+   }
+  ])
+
+  .then(res => {
+    console.log(res)
+    if (res.another) {
+      employees.push(new Engineer(res))
+      role()
+    } else {
+      employees.push(new Engineer(res))
+      finish()
+    }
   })
+  .catch(err => console.log(err))
 }
 
 const iRole = () => {
-  prompt({
+  prompt([
+    {
     type: 'input',
     name: 'name',
     message: 'Enter the employee name:'
-  }, {
+   }, {
     type: 'input',
     name: 'id',
     message: 'Enter employee id:'
-  }, {
+   }, {
     type: 'input',
     name: 'email',
     message: 'Enter the employee email:'
-  }, {
+   }, {
     type: 'input',
     name: 'school',
     message: 'Enter employee school:'
-  }, {
+   }, {
     type: 'confirm',
     name: 'another',
     message: 'Would you like to enter another employee?'
+   }
+  ])
+  .then(res1 => {
+    if (res1.another) {
+      employees.push(new Intern(res1))
+      role()
+    } else {
+      employees.push(new Intern(res1))
+      finish()
+    }
   })
+  .catch(err => console.log(err))
 }
 
 const mRole = () => {
-  prompt({
+  prompt([
+    {
     type: 'input',
     name: 'name',
     message: 'Enter the employee name:'
-  }, {
+   }, {
     type: 'input',
     name: 'id',
     message: 'Enter employee id:'
-  }, {
+   }, {
     type: 'input',
     name: 'email',
     message: 'Enter the employee email:'
-  }, {
+   }, {
     type: 'input',
     name: 'office',
     message: 'Enter employee office number:'
-  }, {
+   }, {
     type: 'confirm',
     name: 'another',
     message: 'Would you like to enter another employee?'
+   }
+  ])
+  .then(res2 => {
+   if (res2.another) {
+     employees.push(new Manager(res2))
+      role()
+    }else {
+     employees.push(new Manager(res2))
+      finish()
+    }
   })
+  .catch(err => console.log(err))
 }
+
+role()
 
 
 
