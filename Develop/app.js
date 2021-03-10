@@ -68,12 +68,16 @@ const eRole = () => {
   ])
 
   .then(res => {
-    console.log(res)
+    let name = res.name
+    let id = res.id
+    let email = res.email
+    let github = res.github
+    
     if (res.another) {
-      employees.push(new Engineer(res))
+      employees.push(new Engineer(name, id, email, github))
       role()
     } else {
-      employees.push(new Engineer(res))
+      employees.push(new Engineer(name, id, email, github))
       finish()
     }
   })
@@ -105,11 +109,15 @@ const iRole = () => {
    }
   ])
   .then(res1 => {
+    let name = res1.name
+    let id = res1.id
+    let email = res1.email
+    let school = res1.school
     if (res1.another) {
-      employees.push(new Intern(res1))
+      employees.push(new Intern(name, id, email, school))
       role()
     } else {
-      employees.push(new Intern(res1))
+      employees.push(new Intern(name, id, email, school))
       finish()
     }
   })
@@ -141,11 +149,15 @@ const mRole = () => {
    }
   ])
   .then(res2 => {
+    let name = res2.name
+    let id = res2.id
+    let email = res2.email
+    let office = res2.office
    if (res2.another) {
-     employees.push(new Manager(res2))
+     employees.push(new Manager(name, id, email, office))
       role()
     }else {
-     employees.push(new Manager(res2))
+     employees.push(new Manager(name, id, email, office))
       finish()
     }
   })
